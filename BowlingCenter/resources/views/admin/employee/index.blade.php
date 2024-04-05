@@ -10,13 +10,16 @@
 
         </tr>
 
-        @foreach ($users as $user)
+
+        @foreach ($users->Users as $user)
         <tr>
             <td>{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
+            <td>{{ $users->usertype }}</td>
         </tr>
-        @endforeach
 
+        <a href="{{route('admin.employee.edit',$user->id)}}">wijzig</a>
+        @endforeach
     </table>
 </x-admin-layout>

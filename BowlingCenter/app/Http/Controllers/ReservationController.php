@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Options;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\usertype;
@@ -10,8 +11,10 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::where('id', auth()->id())->get();
-        return view('reservations.index', compact('reservations'));
+
+        $reservations = options::with('reservation')->get();
+
+        return view('reservations.index', compact('reservations',));
     }
 
     public function create()

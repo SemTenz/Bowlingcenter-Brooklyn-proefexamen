@@ -15,8 +15,8 @@ class usertype extends Model
 
     protected $table = 'usertypes';
 
-    public function employee()
+    public function Users()
     {
-        return $this->hasMany(employee::class);
+        return $this->hasMany(User::class, 'usertype');
     }
 }

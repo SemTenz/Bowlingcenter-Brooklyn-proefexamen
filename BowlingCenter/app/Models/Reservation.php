@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class employee extends Model
+class Reservation extends Model
 {
     use HasFactory;
-
     protected $fillable = [
+        'date',
+        'time',
+        'people',
+        'phoneNumber',
         'name',
-        'email',
-        'phone',
-        'usertype_id',
+        'options_id',
+        'users_id',
+        'employee_id',
     ];
-    protected $table = 'employees';
 }

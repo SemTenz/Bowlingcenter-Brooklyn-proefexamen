@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->string('date');
-            $table->string('time');
-            $table->string('people');
-            $table->string('phoneNumber');
+            $table->string('time')->default('12:00');
+            $table->string('people')->nullable();
+            $table->string('phoneNumber')->nullable();
             $table->string('name')->nullable();
-            $table->string('options_id');
-            $table->string('users_id');
-            $table->string('employee_id');
+            $table->string('options_id')->nullable();
+            $table->string('users_id')->nullable();
+            $table->string('employee_id')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use App\Http\Controllers\employeecontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ScoreController;
 use App\Models\Reservation;
 
 Route::get('/', function () {
@@ -26,6 +27,7 @@ Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(functio
     Route::put('/employee/{id}', [employeecontroller::class, 'update'])->name('employee.update');
     Route::delete('/employee/{id}', [employeecontroller::class, 'destroy'])->name('employee.delete');
     Route::get('/employee/create', [employeecontroller::class, 'create'])->name('employee.create');
+    Route::get('index', [employeecontroller::class, 'index'])->name('index');
     Route::resource('/medewerkers', employeecontroller::class);
 });
 
@@ -42,5 +44,12 @@ Route::middleware(['auth'])->name('reservations.')->group(function () {
     Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('update');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('destroy');
 });
+
+Route::middleware(['auth'])->name('scores.')->group(function () {
+    Route::get('/scores/create', [ScoreController::class, 'create'])->name('create');
+    Route::post('/scores/store', [ScoreController::class, 'store'])->name('store');
+    Route::get('/scores/{score}', [ScoreController::class, 'show'])->name('show');
+});
+
 
 require __DIR__ . '/auth.php';

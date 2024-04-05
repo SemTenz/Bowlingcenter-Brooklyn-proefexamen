@@ -1,19 +1,34 @@
 {
+<<<<<<< HEAD
   "hash": "a2be9b7a",
   "configHash": "cbfc9042",
   "lockfileHash": "1e97287c",
   "browserHash": "b6b12cc3",
+=======
+  "hash": "cdec9c81",
+  "configHash": "f0f3b8a2",
+  "lockfileHash": "1e97287c",
+  "browserHash": "80e41cfc",
+>>>>>>> 99248fb47734ee5757a88729f20c569f82994bcd
   "optimized": {
     "alpinejs": {
       "src": "../../node_modules/alpinejs/dist/module.esm.js",
       "file": "alpinejs.js",
+<<<<<<< HEAD
       "fileHash": "399c1fdf",
+=======
+      "fileHash": "0405cb4b",
+>>>>>>> 99248fb47734ee5757a88729f20c569f82994bcd
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
+<<<<<<< HEAD
       "fileHash": "94f7a96d",
+=======
+      "fileHash": "386c873a",
+>>>>>>> 99248fb47734ee5757a88729f20c569f82994bcd
       "needsInterop": false
     }
   },

@@ -18,6 +18,8 @@
             <td>{{ $user->email }}</td>
             <td>{{ $users->usertype }}</td>
         </tr>
+
+        <a href="{{route('admin.employee.edit',$user->id)}}">wijzig</a>
         @endforeach
     </table>
 </x-admin-layout>

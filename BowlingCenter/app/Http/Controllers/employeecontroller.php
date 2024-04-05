@@ -12,7 +12,7 @@ class employeecontroller extends Controller
     {
         $users = usertype::with('Users')->find(2);
 
-        echo $users;
+
 
         return view('admin.employee.index', compact('users'));
     }
@@ -39,6 +39,7 @@ class employeecontroller extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+
 
         return view('admin.employee.edit', compact('user'));
     }

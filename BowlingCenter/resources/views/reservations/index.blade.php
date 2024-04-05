@@ -79,26 +79,22 @@
                         <td>{{ $reservation->people }}</td>
                         <td>{{ $reservation->phoneNumber }}</td>
 
-                        <td>
-                            @if ($reservation->options_id >= 1)
-                                {{ $reservation->options_id }}
-                            @else
-                                niet van toepassing
-                            @endif
-                        </td>
-                        
-                        <td><a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-primary">Edit</a></td>
-                        <td>
-                            <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je dit wilt verwijderen?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                @if ($reservation->options_id >= 1)
+                <td>{{ $reservation->options_id }}</td>
+                @else
+                <td>niet van toepassing</td>
+                @endif
+                <td><a href="{{ route('reservations.edit', $reservation->id) }}">Edit</a></td>
+                <td>
+                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            @endforeach
+        </table>
+    </div>
     @endsection
 </x-app-layout>

@@ -14,7 +14,7 @@ class Options extends Model
     ];
 
     protected $table = 'options';
-    public function reservation()
+    public function reservations()
     {
         return $this->hasMany(reservation::class, 'options_id');
     }

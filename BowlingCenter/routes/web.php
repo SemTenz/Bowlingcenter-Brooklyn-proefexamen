@@ -22,9 +22,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
     Route::get('/employee/index', [employeecontroller::class, 'index'])->name('index');
-    Route::get('/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::get('/employee/{id}/edit', [employeeController::class, 'edit'])->name('employee.edit');
     Route::put('/employee/{id}', [employeecontroller::class, 'update'])->name('employee.update');
     Route::delete('/employee/{id}', [employeecontroller::class, 'destroy'])->name('employee.delete');
+    Route::get('/employee/create', [employeecontroller::class, 'create'])->name('employee.create');
     Route::resource('/medewerkers', employeecontroller::class);
 });
 

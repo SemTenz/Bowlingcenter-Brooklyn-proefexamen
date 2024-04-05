@@ -42,18 +42,25 @@
             text-align: center;
         }
 
-        nav a {
-          margin: 0 10px;
+        nav a,
+        .auth-links a,
+        .logout-button {
+            margin: 0 10px;
             padding: 10px 20px;
             color: #fff;
             text-decoration: none;
             background-color: #F56AC6;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            display: inline-block; /* Ensure buttons are inline */
+            min-width: 120px; /* Set minimum width for buttons */
+            text-align: center; /* Center text within buttons */
         }
 
-        nav a:hover {
-            color: #d443b6;
+        nav a:hover,
+        .auth-links a:hover,
+        .logout-button:hover {
+            background-color: #d443b6;
         }
 
         main {
@@ -90,6 +97,9 @@
             background-color: #F56AC6;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            display: inline-block; /* Ensure buttons are inline */
+            min-width: 120px; /* Set minimum width for buttons */
+            text-align: center; /* Center text within buttons */
         }
 
         .auth-links a:hover {
@@ -117,47 +127,52 @@
             font-family: 'Eras Demi ITC', sans-serif;
             font-size: medium;
             margin: 0 10px;
-            padding: 10px 2px;
+            padding: 10px 20px;
             color: #fff;
             text-decoration: none;
             background-color: #F56AC6;
             border-radius: 5px;
             transition: background-color 0.3s ease;
+            display: inline-block; /* Ensure buttons are inline */
+            min-width: 120px; /* Set minimum width for buttons */
+            text-align: center; /* Center text within buttons */
         }
 
         .logout-button:hover {
-            color: #d443b6;
+            background-color: #d443b6;
             cursor: pointer;
-            
         }
 
     </style>
 </head>
 <body>
-    <header>
-        <h1>Bowlingworld Brooklyn</h1>
-        <nav>
-            @if (Route::has('login'))
-                @auth
-                    <a href="{{ url('/dashboard') }}">Dashboard</a>
-                    <x-nav-link :href="route('reservations.create')" :active="request()->routeIs('reservations.create')">
-                        {{ __('reserveringen') }}
-                    </x-nav-link>
-                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                        @csrf
-                        <button type="submit" class="logout-button">Uitloggen</button>
-                    </form>
-                @else
-                    <div class="auth-links">
-                        <a href="{{ route('login') }}">Log in</a>
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    </div>
-                @endauth
-            @endif
-        </nav>
-    </header>
+<header>
+    <h1>Bowlingworld Brooklyn</h1>
+    <nav>
+        <a href="/" class="btn">Home</a>
+        @if (Route::has('login'))
+            @auth
+                <a href="{{ url('/dashboard') }}" class="btn">Mijn Dashboard</a>
+                <x-nav-link :href="route('reservations.create')" :active="request()->routeIs('reservations.create')" class="btn">
+                    {{ __('Reserveringen') }}
+                </x-nav-link>
+                <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn logout-button">Uitloggen</button>
+                </form>
+            @else
+                <div class="auth-links">
+                    <a href="{{ route('login') }}" class="btn">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="btn">Registreren</a>
+                    @endif
+                </div>
+            @endauth
+        @endif
+    </nav>
+</header>
+
+
 
     <main>
         <section>

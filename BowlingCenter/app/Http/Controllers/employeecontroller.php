@@ -63,6 +63,6 @@ class employeecontroller extends Controller
     {
         User::find($id)->delete();
 
-        return view('admin.employee.index');
+        return view('admin.employee.index', compact('users'));
     }
 }

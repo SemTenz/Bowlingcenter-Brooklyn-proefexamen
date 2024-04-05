@@ -40,6 +40,7 @@ class employeecontroller extends Controller
     {
         $user = User::find($id);
 
+
         return view('admin.employee.edit', compact('user'));
     }
 }

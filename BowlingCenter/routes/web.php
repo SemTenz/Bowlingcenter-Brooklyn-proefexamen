@@ -3,6 +3,8 @@
 use App\Http\Controllers\employeecontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReservationController;
+use App\Models\Reservation;
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,8 +22,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
     Route::get('index', [employeecontroller::class, 'index'])->name('index');
-    Route::get(('/employee/{id}/edit'), [employeecontroller::class, 'edit']);
-    Route::put('/employee/{id}', [employeecontroller::class, 'update']);
     Route::resource('/medewerkers', employeecontroller::class);
 });
 
@@ -29,4 +29,14 @@ Route::middleware(['auth'], '2')->name('admin.')->prefix('admin')->group(functio
     Route::get('index', [employeecontroller::class, 'index'])->name('index');
     Route::resource('/medewerkers', employeecontroller::class);
 });
+
+Route::middleware(['auth'])->name('reservations.')->group(function () {
+    Route::get('/reservations', [ReservationController::class, 'index'])->name('index');
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('create');
+    Route::post('/reservations/store', [ReservationController::class, 'store'])->name('store');
+    Route::get('/reservations/{id}/edit', [ReservationController::class, 'edit'])->name('edit');
+    Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('update');
+    Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('destroy');
+});
+
 require __DIR__ . '/auth.php';

@@ -1,4 +1,5 @@
-<form action="{{ route('admin.employees.create') }}" method="POST">
+<x-admin-layout>
+<form action="{{ route('admin.employee.create') }}" method="POST">
     @csrf
     @method('put')
     <div class="form-group">
@@ -14,9 +15,9 @@
     <div class="form-group">
         <select name="usertype" id="usertype">
 
-            <option selected="selected" value="{{$users->usertype}}">
+            {{-- <option selected="selected" value="{{$users->usertype}}">
                 {{$users->usertype}}
-            </option>
+            </option> --}}
             <option value="3" default>gebruiker</option>
             <option value="2">Medewerker</option>
     </div>
@@ -25,3 +26,4 @@
 
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
+</x-admin-layout>

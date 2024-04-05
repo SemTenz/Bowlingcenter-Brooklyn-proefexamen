@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
     Route::get('/employee/index', [employeecontroller::class, 'index'])->name('index');
     Route::get('/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
-    Route::put('/employee/{id}', [employeecontroller::class, 'update']);
+    Route::put('/employee/{id}', [employeecontroller::class, 'update'])->name('employee.update');
     Route::resource('/medewerkers', employeecontroller::class);
 });
 

@@ -13,6 +13,7 @@
 
 
         @foreach ($users->Users as $user)
+        
         <tr>
             <td>{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
@@ -26,10 +27,8 @@
             </form>
             </td>
         </tr>
-
         
-        
-        {{-- <a href="{{route('admin.employee.create',$user->id)}}">aanmaken</a> --}}
         @endforeach
+        <td><a href="{{route('admin.employee.create')}}">aanmaken</a></td>
     </table>
 </x-admin-layout>

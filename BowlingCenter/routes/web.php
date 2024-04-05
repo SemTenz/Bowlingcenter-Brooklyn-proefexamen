@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\medewerkercontroller;
+use App\Http\Controllers\employeecontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,12 +19,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
-    Route::get('index', [medewerkercontroller::class, 'index'])->name('index');
-    Route::resource('/medewerkers', medewerkercontroller::class);
+    Route::get('index', [employeecontroller::class, 'index'])->name('index');
+    Route::get(('/employee/{id}/edit'), [employeecontroller::class, 'edit']);
+    Route::put('/employee/{id}', [employeecontroller::class, 'update']);
+    Route::resource('/medewerkers', employeecontroller::class);
 });
 
 Route::middleware(['auth'], '2')->name('admin.')->prefix('admin')->group(function () {
-    Route::get('index', [medewerkercontroller::class, 'index'])->name('index');
-    Route::resource('/medewerkers', medewerkercontroller::class);
+    Route::get('index', [employeecontroller::class, 'index'])->name('index');
+    Route::resource('/medewerkers', employeecontroller::class);
 });
 require __DIR__ . '/auth.php';

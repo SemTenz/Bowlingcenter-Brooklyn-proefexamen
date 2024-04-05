@@ -28,8 +28,8 @@
                     </x-nav-link>
                 </div>
             </div>
-            <div class="hidden space-x-1 sm:-my-px sm:ms-2 sm:flex">
-                <x-nav-link :href="route('sparesoftware.index')" :active="request()->routeIs('sparesoftware.index')">
+            <div class="hidden space-x-1 sm:-my-px sm:ms12 sm:flex">
+                <x-nav-link :href="route('scores.create')" :active="request()->routeIs('scores.create')">
                     {{ __('Sparesoftware') }}
                 </x-nav-link>
             </div>

@@ -58,4 +58,11 @@ class employeecontroller extends Controller
 
         return view('admin.employee.index', compact('users'));
     }
+
+    public function destroy($id)
+    {
+        User::find($id)->delete();
+
+        return view('admin.employee.index');
+    }
 }

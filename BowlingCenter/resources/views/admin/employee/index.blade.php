@@ -7,6 +7,7 @@
             <th>name</th>
             <th>email</th>
             <th>usertype</th>
+           
 
         </tr>
 
@@ -17,9 +18,18 @@
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
             <td>{{ $users->usertype }}</td>
+            <td><a href="{{route('admin.employee.edit',$user->id)}}">wijzig</a></td>
+            <td><form action="{{ route('admin.employee.delete', $user->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            </td>
         </tr>
 
-        <a href="{{route('admin.employee.edit',$user->id)}}">wijzig</a>
+        
+        
+        {{-- <a href="{{route('admin.employee.create',$user->id)}}">aanmaken</a> --}}
         @endforeach
     </table>
 </x-admin-layout>

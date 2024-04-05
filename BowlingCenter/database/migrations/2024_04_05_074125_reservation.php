@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('date');
             $table->string('time')->default('12:00');
             $table->string('people')->nullable();
-            -$table->string('phoneNumber')->nullable();
+            $table->string('phoneNumber')->nullable();
             $table->string('name')->nullable();
             $table->string('options_id')->nullable();
             $table->string('users_id')->nullable();

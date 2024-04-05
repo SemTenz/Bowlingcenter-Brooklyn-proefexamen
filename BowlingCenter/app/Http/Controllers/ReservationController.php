@@ -10,7 +10,7 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::where('user_id', auth()->id())->get();
+        $reservations = Reservation::where('id', auth()->id())->get();
         return view('reservations.index', compact('reservations'));
     }
 
@@ -21,11 +21,18 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'date' => 'required'
+        $validated = $request->validate([
+            'date' => 'nullable',
+            'time' => 'nullable',
+            'people' => 'nullable',
+
         ]);
         $reservation = new Reservation([
-            'date' => $request->get('date'),
+            'date' => $validated['date'],
+            'time' => $validated['time'],
+            'people' => $validated['people'],
+
+            'user_id' => auth()->id(),
         ]);
 
         $reservation->save();
@@ -44,23 +51,22 @@ class ReservationController extends Controller
     {
         $reservation = Reservation::findOrFail($id);
 
-        $request->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'people' => 'required',
-            'phoneNumber' => 'required',
+        $validated = $request->validate([
+            'date' => 'nullable',
+            'time' => 'nullable',
+            'people' => 'nullable',
+            'phoneNumber' => 'nullable',
             'name' => 'nullable',
-            'options_id' => 'required',
-            'users_id' => 'required',
+            'options_id' => 'nullable',
+            'users_id' => 'nullable',
             'employee_id' => 'nullable',
-
-
         ]);
 
-        $reservation->update($request->all());
+        $reservation->fill($validated)->save();
 
         return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully!');
     }
+
 
     public function destroy($id)
     {

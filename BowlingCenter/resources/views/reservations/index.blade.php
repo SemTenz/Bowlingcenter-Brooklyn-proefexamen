@@ -7,23 +7,22 @@
         <table>
             <th>datum en tijd </th>
             <th>naam </th>
-            <th>aantal personen</th>
+            <th>aantal personen </th>
             <th>telefoonnummer </th>
 
             <th>extra optie</th>
 
 
             @foreach ($reservations as $reservation)
-            <td>{{$reservation->reservation}}</td>
+            @foreach ($options as $option)
             <tr>
-
                 <td>{{ $reservation->date }} {{ $reservation->time }}</td>
                 <td>{{ $reservation->name }}</td>
                 <td>{{ $reservation->people }}</td>
                 <td>{{ $reservation->phoneNumber }}</td>
 
                 @if ($reservation->options_id >= 1)
-                <td>{{ $reservation->options_id }}</td>
+                <td>{{ $option->option }}</td>
                 @else
                 <td>niet van toepassing</td>
                 @endif
@@ -36,6 +35,7 @@
                     </form>
                 </td>
             </tr>
+            @endforeach
             @endforeach
         </table>
     </div>

@@ -12,9 +12,9 @@ class ReservationController extends Controller
     public function index()
     {
 
-        $reservations = options::with('reservation')->get();
-
-        return view('reservations.index', compact('reservations',));
+        $options = Options::all();
+        $reservations = Reservation::all();
+        return view('reservations.index', compact('reservations', 'options'));
     }
 
     public function create()

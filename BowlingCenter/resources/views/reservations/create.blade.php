@@ -92,11 +92,6 @@ input[type="time"] {
             @endif
         </div>
 
-<<<<<<< HEAD
-        </form>
-    </div>
-@endsection
-=======
 
 
 
@@ -114,5 +109,6 @@ input[type="time"] {
         <button type="submit" class="btn btn-primary">Create Reservation</button>
     </form>
 </div>
+
+
 @endsection
->>>>>>> 4998e939141538f2fd4c9053c7609454cde56a8f

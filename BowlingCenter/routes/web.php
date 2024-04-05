@@ -4,6 +4,8 @@ use App\Http\Controllers\employeecontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\SparesoftwareController;
+use App\Http\Controllers\ScoreController;
 use App\Models\Reservation;
 
 Route::get('/', function () {
@@ -38,5 +40,12 @@ Route::middleware(['auth'])->name('reservations.')->group(function () {
     Route::put('/reservations/{id}', [ReservationController::class, 'update'])->name('update');
     Route::delete('/reservations/{id}', [ReservationController::class, 'destroy'])->name('destroy');
 });
+
+Route::middleware(['auth'])->name('sparesoftware.')->prefix('sparesoftware')->group(function () {
+    Route::get('/', [ScoreController::class, 'index'])->name('index');
+    Route::post('/scores', [ScoreController::class, 'store'])->name('scores.store');
+});
+
+
 
 require __DIR__ . '/auth.php';

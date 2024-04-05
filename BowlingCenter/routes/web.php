@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\medewerkercontroller;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
+    Route::get('index', [medewerkercontroller::class, 'index'])->name('index');
+    Route::resource('/medewerkers', medewerkercontroller::class);
+});
+
+Route::middleware(['auth'], '2')->name('admin.')->prefix('admin')->group(function () {
+    Route::get('index', [medewerkercontroller::class, 'index'])->name('index');
+    Route::resource('/medewerkers', medewerkercontroller::class);
+});
+require __DIR__ . '/auth.php';

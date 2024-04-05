@@ -10,7 +10,7 @@ class medewerkercontroller extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::with('employee')->get();
         return view('admin.medewerkers.index', compact('users'));
     }
 }

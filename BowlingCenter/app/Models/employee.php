@@ -16,8 +16,4 @@ class employee extends Model
         'usertype_id',
     ];
     protected $table = 'employees';
-    public function usertype()
-    {
-        return $this->belongsTo(usertype::class);
-    }
 }

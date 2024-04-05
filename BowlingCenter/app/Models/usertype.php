@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
 class usertype extends Model
 {
     use HasFactory;
@@ -14,8 +13,10 @@ class usertype extends Model
         'usertype',
     ];
 
-    public function user()
+    protected $table = 'usertypes';
+
+    public function employee()
     {
-        return $this->hasMany(User::class, 'id');
+        return $this->hasMany(employee::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Options;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use App\Models\usertype;
@@ -10,8 +11,10 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        $reservations = Reservation::where('id', auth()->id())->get();
-        return view('reservations.index', compact('reservations'));
+
+        $reservations = options::with('reservation')->get();
+
+        return view('reservations.index', compact('reservations',));
     }
 
     public function create()
@@ -22,17 +25,25 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'date' => 'nullable',
-            'time' => 'nullable',
-            'people' => 'nullable',
-
+            'date' => 'date_format:Y-m-d',
+            'time' => 'date_format:H:i',
+            'people' => 'integer',
+            'phone' => 'numeric|min:1000000|max:1000000000000',
+            'name' => 'nullable',
+            'menu' => 'integer|nullable',
+            'user_id' => 'integer|nullable',
+            'employee_id' => 'nullable',
         ]);
+
+
         $reservation = new Reservation([
             'date' => $validated['date'],
             'time' => $validated['time'],
             'people' => $validated['people'],
-
-            'user_id' => auth()->id(),
+            'phoneNumber' => $validated['phone'],
+            'name' => $validated['name'],
+            'options_id' => $validated['menu'],
+            'users_id' => $validated['user_id'],
         ]);
 
         $reservation->save();
@@ -52,15 +63,18 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($id);
 
         $validated = $request->validate([
-            'date' => 'nullable',
-            'time' => 'nullable',
-            'people' => 'nullable',
-            'phoneNumber' => 'nullable',
+            'date' => 'date_format:Y-m-d',
+            'time' => 'date_format:H:i',
+            'people' => 'integer',
+            'phone' => 'numeric|min:6|max:19',
             'name' => 'nullable',
-            'options_id' => 'nullable',
-            'users_id' => 'nullable',
+            'menu' => 'integer|nullable',
+            'user_id' => 'integer|nullable',
             'employee_id' => 'nullable',
         ]);
+
+
+
 
         $reservation->fill($validated)->save();
 

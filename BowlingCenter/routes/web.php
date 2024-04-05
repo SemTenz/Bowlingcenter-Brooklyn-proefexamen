@@ -24,6 +24,7 @@ Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(functio
     Route::get('/employee/index', [employeecontroller::class, 'index'])->name('index');
     Route::get('/employee/{id}/edit', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::put('/employee/{id}', [employeecontroller::class, 'update']);
+    Route::delete('/employee/{id}/delete', [employeecontroller::class, 'delete']);
     Route::resource('/medewerkers', employeecontroller::class);
 });
 

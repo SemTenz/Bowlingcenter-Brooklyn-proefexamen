@@ -43,4 +43,11 @@ class employeecontroller extends Controller
 
         return view('admin.employee.edit', compact('user'));
     }
+
+    public function delete($id)
+    {
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('admin.employee.index');
+    }
 }

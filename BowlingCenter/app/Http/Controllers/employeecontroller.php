@@ -54,7 +54,7 @@ class employeecontroller extends Controller
 
         // User::find($id)->update($request->all());
         $users = User::find($id);
-        $users = usertype::with('Users')->find(2);
+        // $users = usertype::with('Users')->find(2);
         $users->save();
         return view('admin.employee.index', compact('users'));
     }

@@ -18,8 +18,6 @@
             <td>{{ $user->email }}</td>
             <td>{{ $users->usertype }}</td>
         </tr>
-
         @endforeach
-
     </table>
 </x-admin-layout>

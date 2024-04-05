@@ -20,8 +20,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'], '1')->name('admin.')->prefix('admin')->group(function () {
     Route::get('index', [employeecontroller::class, 'index'])->name('index');
-    Route::get(('/employee/{id}/edit'), [employeecontroller::class, 'edit']);
-    Route::put('/employee/{id}', [employeecontroller::class, 'update']);
     Route::resource('/medewerkers', employeecontroller::class);
 });
 

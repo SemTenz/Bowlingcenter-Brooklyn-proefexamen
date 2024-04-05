@@ -21,10 +21,10 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'people' => 'required',
-            'phoneNumber' => 'required',
+            'date' => 'nullable',
+            'time' => 'nullable',
+            'people' => 'nullable',
+            
         ]);
     
         // Create a new Reservation instance with the validated data
@@ -32,7 +32,7 @@ class ReservationController extends Controller
             'date' => $validated['date'],
             'time' => $validated['time'],
             'people' => $validated['people'],
-            'phoneNumber' => $validated['phoneNumber'],
+    
             'user_id' => auth()->id(),
         ]);
     
@@ -52,24 +52,23 @@ class ReservationController extends Controller
     public function update(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
-
-        $request->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'people' => 'required',
-            'phoneNumber' => 'required',
+    
+        $validated = $request->validate([
+            'date' => 'nullable',
+            'time' => 'nullable',
+            'people' => 'nullable',
+            'phoneNumber' => 'nullable',
             'name' => 'nullable',
-            'options_id' => 'required',
-            'users_id' => 'required',
+            'options_id' => 'nullable',
+            'users_id' => 'nullable',
             'employee_id' => 'nullable',
-
-
         ]);
-
-        $reservation->update($request->all());
-
+    
+        $reservation->fill($validated)->save();
+    
         return redirect()->route('reservations.index')->with('success', 'Reservation updated successfully!');
     }
+    
 
     public function destroy($id)
     {

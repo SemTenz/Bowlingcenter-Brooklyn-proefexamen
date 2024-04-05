@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use App\Models\usertype;
 
 class ReservationController extends Controller
 {
@@ -20,28 +21,18 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'date' => 'required',
-            'time' => 'required',
-            'people' => 'required',
-            'phoneNumber' => 'required',
+        $validate = $request->validate([
+            'date' => 'required'
         ]);
-    
-        // Create a new Reservation instance with the validated data
         $reservation = new Reservation([
-            'date' => $validated['date'],
-            'time' => $validated['time'],
-            'people' => $validated['people'],
-            'phoneNumber' => $validated['phoneNumber'],
-            'user_id' => auth()->id(),
+            'date' => $request->get('date'),
         ]);
-    
-        // Save the reservation to the database
+
         $reservation->save();
-    
+
         return redirect()->route('reservations.index')->with('success', 'Reservation created successfully!');
     }
-    
+
 
     public function edit($id)
     {

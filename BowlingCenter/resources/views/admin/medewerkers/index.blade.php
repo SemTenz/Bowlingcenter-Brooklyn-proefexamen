@@ -27,8 +27,7 @@
             </form>
             </td>
         </tr>
-        
-        
+
         @endforeach
         <td><a href="{{route('admin.employee.create')}}">aanmaken</a></td>
     </table>

@@ -1,7 +1,7 @@
 <x-admin-layout>
-    <form action="{{route('admin.employee.edit',$user->id)}}" method="post">
+    <form action="{{route('admin.employee.store',$user->id)}}" method="post">
         @csrf
-        @method('PUT')
+
         <label for="name">Naam</label>
         <input type="text" name="name" id="name" value="{{$user->name}}">
         <label for="email">Email</label>

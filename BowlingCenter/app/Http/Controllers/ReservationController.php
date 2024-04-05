@@ -20,25 +20,28 @@ class ReservationController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'date' => 'required',
             'time' => 'required',
             'people' => 'required',
             'phoneNumber' => 'required',
-            // Add more validation rules as needed
         ]);
-
-        Reservation::create([
-            'date' => $request->date,
-            'time' => $request->time,
-            'people' => $request->people,
-            'phoneNumber' => $request->phoneNumber,
+    
+        // Create a new Reservation instance with the validated data
+        $reservation = new Reservation([
+            'date' => $validated['date'],
+            'time' => $validated['time'],
+            'people' => $validated['people'],
+            'phoneNumber' => $validated['phoneNumber'],
             'user_id' => auth()->id(),
-            // Add more fields as needed
         ]);
-
+    
+        // Save the reservation to the database
+        $reservation->save();
+    
         return redirect()->route('reservations.index')->with('success', 'Reservation created successfully!');
     }
+    
 
     public function edit($id)
     {
@@ -55,7 +58,12 @@ class ReservationController extends Controller
             'time' => 'required',
             'people' => 'required',
             'phoneNumber' => 'required',
-            // Add more validation rules as needed
+            'name' => 'nullable',
+            'options_id' => 'required',
+            'users_id' => 'required',
+            'employee_id' => 'nullable',
+
+
         ]);
 
         $reservation->update($request->all());

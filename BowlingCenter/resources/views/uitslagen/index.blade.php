@@ -31,21 +31,34 @@
         .custom-table .action-btn {
             padding: 6px 12px;
         }
+
+        .custom-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .custom-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 
     <div class="container-fluid bg-light py-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form method="get" action="{{ route('uitslagen.index') }}">
+                <form method="get" action="{{ route('uitslagen.index') . '?' . time() }}">
                     @csrf
-                    <div class="form-group row justify-content-center">
+                    <div class="form-group row align-items-center justify-content-center">
                         <label for="datum" class="col-md-2 col-form-label text-md-right">Datum:</label>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <input type="date" id="datum" name="datum" value="{{ request()->input('datum') }}"
                                 class="form-control">
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">Toon</button>
+                            <button type="submit" class="btn btn-primary custom-btn">Toon</button>
                         </div>
                     </div>
                 </form>
@@ -70,7 +83,9 @@
                                     <td class="text-center">{{ $reservation->user ? $reservation->user->lastname : '-' }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $scores->where('reservation_id', $reservation->id)->first()->score }}</td>
+                                        {{ optional($scores->where('reservation_id', $reservation->id)->first())->score ?? '-' }}
+                                    </td>
+
                                     <td class="text-center">{{ $reservation->date }}</td>
                                 </tr>
                             @empty
@@ -86,4 +101,19 @@
             </div>
         </div>
     </div>
+    <script>
+        // JavaScript om de geselecteerde datum te wissen bij vernieuwen van de pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('dateForm');
+            const dateInput = document.getElementById('datum');
+
+            // Controleer of er een datum is geselecteerd bij het laden van de pagina
+            if (dateInput.value) {
+                // Wis de geselecteerde datum om terug te keren naar de standaardweergave
+                dateInput.value = '';
+                // Verzend het formulier automatisch om de standaardweergave te laden
+                form.submit();
+            }
+        });
+    </script>
 @endsection

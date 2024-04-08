@@ -1,56 +1,90 @@
-<style>
-.reservation-form {
-    max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    font-weight: bold;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="time"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.alert {
-    background-color: #f2dede;
-    color: #a94442;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-    </style>
 @extends('layouts.app')
 
 @section('content')
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .reservation-form {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+
+    .radio-group label {
+        display: inline-block;
+        margin-right: 15px;
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .radio-group label:hover {
+        background-color: #f0f0f0;
+    }
+
+    input[type="radio"]:checked + label {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .alert {
+        background-color: #f2dede;
+        color: #a94442;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+</style>
+
 <div class="container">
     <div class="reservation-form">
         @if ($errors->any())
@@ -75,15 +109,14 @@ input[type="time"] {
             </div>
             <div class="form-group">
                 <label for="totalhours">Aantal uren:</label>
-                <input type="number" name="totalhours" id="totalhours" class="form-control" min="1" required>
+                <input type="number" name="totalhours" id="totalhours" class="form-control" min="1" max="4" required>
             </div>
             <div class="form-group">
                 <label for="start_time">Start tijd:</label>
-                <input type="time" name="start_time" id="start_time" class="form-control" required>
+                <input type="time" name="start_time" id="start_time" class="form-control">
             </div>
             <div class="form-group">
-                <label for="end_time">Eind Tijd:</label>
-                <input type="time" name="end_time" id="end_time" class="form-control" required>
+                <input type="hidden" name="end_time" id="end_time" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <label for="lane_number">Baannummer:</label>
@@ -122,17 +155,27 @@ input[type="time"] {
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('reservation-form').addEventListener('submit', function(event) {
             var childrenInput = parseInt(document.getElementById('children').value);
-            var laneNumberSelect = document.getElementById('lane_number');
-            var selectedLane = parseInt(laneNumberSelect.value);
-            var childrenMessage = document.getElementById('children-message');
+            var laneNumberInput = parseInt(document.getElementById('lane_number').value);
+            var laneError = document.getElementById('lane-error');
 
-            // Controleer of kinderen zijn geselecteerd maar geen baan 7 of 8 is gekozen
-            if (childrenInput > 0 && (selectedLane < 7 || selectedLane > 8)) {
+            if (childrenInput > 0 && (laneNumberInput < 7 || laneNumberInput > 8)) {
+                laneError.textContent = 'Alleen baan 7 en 8 zijn beschikbaar voor reserveringen met kinderen.';
                 event.preventDefault(); // Voorkom dat het formulier wordt verzonden
-                childrenMessage.textContent = 'Alleen baan 7 en 8 zijn beschikbaar voor reserveringen met kinderen.';
             } else {
-                childrenMessage.textContent = ''; // Wis de melding als de selectie geldig is
+                laneError.textContent = ''; // Wis de foutmelding als alles in orde is
             }
+        });
+
+        // Vul de eindtijd automatisch in op basis van de begintijd en het totale aantal uren
+        document.getElementById('start_time').addEventListener('change', function() {
+            var startTime = this.value;
+            var totalHours = document.getElementById('totalhours').value;
+            var start = new Date("January 1, 2000 " + startTime);
+            start.setHours(start.getHours() + parseInt(totalHours));
+            var endHours = start.getHours().toString().padStart(2, '0');
+            var endMinutes = start.getMinutes().toString().padStart(2, '0');
+            var endTime = endHours + ':' + endMinutes;
+            document.getElementById('end_time').value = endTime;
         });
     });
 </script>

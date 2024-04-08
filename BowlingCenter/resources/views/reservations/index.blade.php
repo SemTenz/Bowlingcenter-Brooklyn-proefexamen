@@ -114,6 +114,8 @@
        </table>
 </div>
 
+{{-- to do: sorting by selected date. 
+    explenation: it does sort descending but not by the selected date--}}
 <script>
     $(document).ready(function() {
         const sortLink = $(".sort-link");
@@ -136,42 +138,30 @@
         });
 
         function sortTable(selectedDate) {
-    console.log("Sorting table for date:", selectedDate);
-    const tbody = $('.reservation-table tbody');
-    const rows = tbody.find('tr').toArray();
+            console.log("Sorting table for date:", selectedDate);
+            const tbody = $('.reservation-table tbody');
+            const rows = tbody.find('tr').toArray();
 
-    rows.sort(function(a, b) {
-    const dateA = $(a).find('td:first-child').text();
-    const dateB = $(b).find('td:first-child').text();
+            rows.sort(function(a, b) {
+                const dateA = parseDate(selectedDate, $(a).find('td:first-child').text());
+                const dateB = parseDate(selectedDate, $(b).find('td:first-child').text());
+                return dateB.getTime() - dateA.getTime(); // Compare timestamps
+            });
 
-    console.log("Date A:", dateA);
-    console.log("Date B:", dateB);
+            // Remove existing rows
+            tbody.empty();
 
-    // Compare date strings in reverse order (descending)
-    if (dateA < dateB) return 1;
-    if (dateA > dateB) return -1;
-    return 0;
-});
+            // Re-append sorted rows
+            rows.forEach(function(row) {
+                tbody.append(row);
+            });
 
-
-    // Clear the tbody
-    tbody.empty();
-
-    // Append sorted rows to the tbody
-    rows.forEach(function(row) {
-        tbody.append(row);
-    });
-
-    $('#datepicker').datepicker('hide');
-}
-
+            $('#datepicker').datepicker('hide');
+        }
 
         function parseDate(selectedDate, dateString) {
-            // Split the date string into date and time parts
+            // Extract date and time parts from the dateString
             const [datePart, timePart] = dateString.split(' ');
-
-            // Extract year, month, and day from the selectedDate
-            const [selectedMonth, selectedDay, selectedYear] = selectedDate.split('/');
 
             // Extract year, month, and day from the datePart of the dateString
             const [year, month, day] = datePart.split('-');
@@ -180,13 +170,11 @@
             const [hours, minutes] = timePart.split(':');
 
             // Construct a new Date object with the extracted components
-            // Note: Months are 0-indexed in JavaScript Date objects, so we subtract 1 from the selectedMonth
-            return new Date(selectedYear, selectedMonth - 1, selectedDay, hours, minutes);
+            return new Date(year, month - 1, day, hours, minutes); // Months are 0-indexed
         }
     });
 </script>
-      
-            
+  
 @endsection
 </x-app-layout>
 </body>

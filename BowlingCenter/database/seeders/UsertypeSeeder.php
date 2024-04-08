@@ -15,5 +15,6 @@ class UsertypeSeeder extends Seeder
     {
         usertype::create(['usertype' => 'admin']);
         usertype::create(['usertype' => 'medewerker']);
+        usertype::create(['usertype' => 'klant']);
     }
 }

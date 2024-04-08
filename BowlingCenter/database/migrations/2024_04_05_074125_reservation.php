@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
-            $table->string('time')->default('12:00');
-            $table->string('people')->nullable();
-            $table->string('phoneNumber')->nullable();
             $table->string('name')->nullable();
-            $table->string('options_id')->nullable();
-            $table->string('users_id')->nullable();
-            $table->string('employee_id')->nullable();
+            $table->string('date');
+            $table->integer('totalhours')->nullable();
+            $table->string('start_time')->nullable();
+            $table->string('end_time')->nullable();
+            $table->integer('lane_number')->nullable();
+            $table->integer('adults')->nullable();
+            $table->integer('children')->nullable();
+            $table->string('phone_number')->nullable();
+            $table->integer('menu')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('employee_id')->nullable();
             $table->timestamps();
         });
     }
@@ -33,3 +37,4 @@ return new class extends Migration
         Schema::dropIfExists('reservations');
     }
 };
+

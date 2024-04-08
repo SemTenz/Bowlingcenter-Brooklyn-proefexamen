@@ -12,31 +12,35 @@ use Illuminate\Support\Carbon;
 class ReservationController extends Controller
 {
     public function index(Request $request)
-    {
-        // Controleer of de gebruiker is ingelogd
-        if (Auth::check()) {
-            // Haal de ingelogde gebruiker op
-            $user = Auth::user();
-    
-            // Haal alle reserveringen op van de ingelogde gebruiker
-            $query = Reservation::query()->where('user_id', $user->id);
-    
-            // Voeg een datumfilter toe als er een datum is ingediend via het formulier
-            if ($request->has('datum')) {
-                $datum = Carbon::parse($request->input('datum'))->toDateString();
-                $query->whereDate('date', $datum);
-            }
-    
-            // Haal de reserveringen op basis van de query
-            $reservations = $query->get();
-    
-            // Stuur de reserveringen naar de weergave
-            return view('reservations.index', compact('reservations'));
-        } else {
-            // Gebruiker is niet ingelogd, doorverwijzen naar inlogpagina of andere actie
-            return redirect()->route('login');
+{
+    $options = Options::all();
+        $reservations = Reservation::all();
+        // return view('reservations.index', compact('reservations', 'options'));
+    // Controleer of de gebruiker is ingelogd
+    if (Auth::check()) {
+        // Haal de ingelogde gebruiker op
+        $user = Auth::user();
+
+        // Haal alle reserveringen op van de ingelogde gebruiker
+        $query = Reservation::query()->where('user_id', $user->id);
+
+        // Voeg een datumfilter toe als er een datum is ingediend via het formulier
+        if ($request->has('datum')) {
+            $datum = Carbon::parse($request->input('datum'))->toDateString();
+            $query->whereDate('date', $datum);
         }
+
+        // Haal de reserveringen op basis van de query
+        $reservations = $query->get();
+
+        // Stuur de reserveringen naar de weergave
+        return view('reservations.index', compact('reservations', 'options'));
+    } else {
+        // Gebruiker is niet ingelogd, doorverwijzen naar inlogpagina of andere actie
+        return redirect()->route('login');
     }
+}
+
 
     public function create()
     {

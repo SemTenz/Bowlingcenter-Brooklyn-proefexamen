@@ -20,13 +20,20 @@ class Reservation extends Model
         'children',
         'phone_number',
         'menu',
-        'user_id',
+        'users_id',
         'employee_id',
     ];
     public function user()
-{
-    return $this->belongsTo(User::class, 'users_id');
-}
+    {
+        return $this->belongsTo(User::class, 'users_id');
+    }
+
+    // Definieer de relatie met de reservering
+    public function reservation()
+    {
+        return $this->belongsTo(Reservation::class);
+    }
+
 
 }
 

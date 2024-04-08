@@ -33,6 +33,18 @@
                     {{ __('Sparesoftware') }}
                 </x-nav-link>
             </div>
+            <div class="hidden space-x-1 sm:-my-px sm:ms12 sm:flex">
+                <x-nav-link :href="route('uitslagen.index')" :active="request()->routeIs('uitslagen.index')">
+                    {{ __('Uitslagen') }}
+                </x-nav-link>
+            </div>
+            <div class="hidden space-x-1 sm:-my-px sm:ms12 sm:flex">
+                <x-nav-link :href="route('speler.index')" :active="request()->routeIs('speler.index')">
+                    {{ __('Overzicht spelers') }}
+                </x-nav-link>
+            </div>
+
+
 
 
             <!-- Settings Dropdown -->
@@ -56,8 +68,9 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {{ __('Profiel') }}
                         </x-dropdown-link>
+
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">

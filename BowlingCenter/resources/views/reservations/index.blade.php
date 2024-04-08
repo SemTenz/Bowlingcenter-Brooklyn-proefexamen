@@ -67,6 +67,20 @@
     <div class="container">
         <h1>My Reservations</h1>
 
+        <form method="get" action="{{ route('reservations.index') }}">
+            @csrf
+            <div class="form-group row justify-content-center">
+                <label for="datum" class="col-md-2 col-form-label text-md-right">Datum:</label>
+                <div class="col-md-4">
+                    <input type="date" id="datum" name="datum" value="{{ request()->input('datum') }}"
+                        class="form-control">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Toon</button>
+                </div>
+            </div>
+        </form>
+
         <table class="reservation-table">
             <thead>
                 <tr>
@@ -84,7 +98,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($reservations as $reservation)
+                @forelse ($reservations as $reservation)
                     <tr>
                         <td>{{ $reservation->date }} {{ $reservation->start_time}} - {{ $reservation->end_time }}</td>
                         <td>{{ $reservation->name }}</td>
@@ -118,7 +132,13 @@
                             </form>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Geen reserveringen gevonden voor de geselecteerde
+                                    datum.
+                                </td>
+                            </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

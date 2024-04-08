@@ -13,6 +13,32 @@ class ReservationController extends Controller
         $options = Options::all();
         $reservations = Reservation::orderByDesc('date')->get();
         return view('reservations.index', compact('reservations', 'options'));
+        $reservations = Reservation::all();
+        $scores = Score::all();
+        // Controleer of de gebruiker is ingelogd
+        if (Auth::check()) {
+            // Haal de ingelogde gebruiker op
+            $user = Auth::user();
+
+            // Haal alle reserveringen op van de ingelogde gebruiker
+            $query = Reservation::query()->where('users_id', $user->id);
+
+            // Voeg een datumfilter toe als er een datum is ingediend via het formulier
+            if ($request->has('datum')) {
+                $datum = Carbon::parse($request->input('datum'))->toDateString();
+                // dd($datum); // Voeg deze regel toe om de waarde van $datum te controleren
+                $query->whereDate('date', $datum);
+            }
+
+            // Haal de reserveringen op basis van de query
+            $reservations = $query->get();
+
+            // Stuur de reserveringen naar de weergave
+            return view('reservations.index', compact('reservations', 'scores'));
+        } else {
+            // Gebruiker is niet ingelogd, doorverwijzen naar inlogpagina of andere actie
+            return redirect()->route('login');
+        }
     }
 
     public function create()

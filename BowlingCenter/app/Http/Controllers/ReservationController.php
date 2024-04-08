@@ -12,7 +12,7 @@ use App\Models\Score;
 
 class ReservationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $options = Options::all();
         $reservations = Reservation::orderByDesc('date')->get();

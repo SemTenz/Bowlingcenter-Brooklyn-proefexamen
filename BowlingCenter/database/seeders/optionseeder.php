@@ -13,7 +13,8 @@ class optionseeder extends Seeder
      */
     public function run(): void
     {
-        Options::create(['option' => 'eten']);
+        Options::create(['option' => 'snackpakketbasis']);
+        Options::create(['option' => 'snackpakketluxe']);
         Options::create(['option' => 'kinderpartij']);
         Options::create(['option' => 'vrijgezellenfeest']);
     }

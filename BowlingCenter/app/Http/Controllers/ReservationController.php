@@ -10,12 +10,12 @@ use App\Models\usertype;
 class ReservationController extends Controller
 {
     public function index()
-{
-    $options = Options::all();
-    $reservations = Reservation::orderBy('date', 'desc')->get(); // Sorting by date in descending order
-    return view('reservations.index', compact('reservations', 'options'));
-}
+    {
 
+        $options = Options::all();
+        $reservations = Reservation::all();
+        return view('reservations.index', compact('reservations', 'options'));
+    }
 
     public function create()
     {

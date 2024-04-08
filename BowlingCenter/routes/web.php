@@ -57,9 +57,7 @@ Route::middleware(['auth'])->name('scores.')->group(function () {
 
 Route::middleware(['auth'])->name('uitslagen.')->group(function () {
     Route::get('/uitslagen', [UitslagenController::class, 'index'])->name('index');
-    Route::get('/uitslagen/create', [UitslagenController::class, 'create'])->name('create');
     Route::post('/uitslagen/store', [UitslagenController::class, 'store'])->name('store');
-    Route::get('/uitslagen/show/{id}', [UitslagenController::class, 'show'])->name('show');
 });
 
 

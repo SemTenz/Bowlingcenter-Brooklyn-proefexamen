@@ -38,6 +38,12 @@
                     {{ __('Uitslagen') }}
                 </x-nav-link>
             </div>
+            <div class="hidden space-x-1 sm:-my-px sm:ms12 sm:flex">
+                <x-nav-link :href="route('speler.index')" :active="request()->routeIs('speler.index')">
+                    {{ __('Overzicht spelers') }}
+                </x-nav-link>
+            </div>
+
 
 
 

@@ -9,6 +9,7 @@
             <button type="submit" class="btn btn-primary">Toon</button>
         </form>
 
+
         <table class="table mt-4">
             <thead>
                 <tr>
@@ -33,7 +34,9 @@
                         <td colspan="5">Geen reserveringen gevonden voor de geselecteerde datum.</td>
                     </tr>
                 @endforelse
+
             </tbody>
+
         </table>
     </div>
 @endsection

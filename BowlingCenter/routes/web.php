@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ScoreController;
 use App\Http\Controllers\UitslagenController;
+use App\Http\Controllers\SpelersController;
 use App\Models\Reservation;
 
 Route::get('/', function () {
@@ -59,6 +60,14 @@ Route::middleware(['auth'])->name('uitslagen.')->group(function () {
     Route::get('/uitslagen', [UitslagenController::class, 'index'])->name('index');
     Route::post('/uitslagen/store', [UitslagenController::class, 'store'])->name('store');
 });
+
+Route::middleware(['auth'])->name('speler.')->group(function () {
+    Route::get('/speler', [SpelersController::class, 'index'])->name('index');
+    Route::get('/speler/{id}/edit', [SpelersController::class, 'edit'])->name('edit');
+    Route::put('/speler/{id}', [SpelersController::class, 'update'])->name('update');
+});
+
+
 
 
 

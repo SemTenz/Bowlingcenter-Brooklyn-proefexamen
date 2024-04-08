@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Reservation;
 use App\Models\Uitslagen;
 use Illuminate\Support\Carbon;
+use App\Models\Score;
 
 
 class UitslagenController extends Controller
 {
     public function index(Request $request)
     {
+        $reservations = Reservation::all();
+        $scores = Score::all();
         // Controleer of de gebruiker is ingelogd
         if (Auth::check()) {
             // Haal de ingelogde gebruiker op
@@ -32,7 +35,7 @@ class UitslagenController extends Controller
             $reservations = $query->get();
 
             // Stuur de reserveringen naar de weergave
-            return view('uitslagen.index', compact('reservations'));
+            return view('uitslagen.index', compact('reservations', 'scores'));
         } else {
             // Gebruiker is niet ingelogd, doorverwijzen naar inlogpagina of andere actie
             return redirect()->route('login');

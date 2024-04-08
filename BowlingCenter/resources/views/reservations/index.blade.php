@@ -1,3 +1,12 @@
+<head>
+    <!-- Include jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Include jQuery UI library -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Include jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+</head>
+
 <style>
     .alert {
         background-color: #d4edda;
@@ -42,7 +51,6 @@
 @extends('layouts.app')
 
 <x-app-layout>
-    
     @section('content')
         @if (session('success'))
             <div class="alert alert-success">
@@ -62,7 +70,12 @@
             <table class="reservation-table">
                 <thead>
                     <tr>
-                        <th>datum en tijd</th>
+                        <th>
+                            <a href="#" class="sort-link" data-sort-by="date">
+                                <input type="text" id="datepicker" style="display: none;">
+                                datum en tijd <i class="fa fa-calendar"></i>
+                            </a>
+                        </th>
                         <th>naam</th>
                         <th>aantal personen</th>
                         <th>telefoonnummer</th>
@@ -73,76 +86,83 @@
                 </thead>
                 <tbody>
                     @foreach ($reservations as $reservation)
-                    <tr>
-                        <td>{{ $reservation->date }} {{ $reservation->time }}</td>
-                        <td>{{ $reservation->name }}</td>
-                        <td>{{ $reservation->people }}</td>
-                        <td>{{ $reservation->phoneNumber }}</td>
-
-                        <td>
-                            @if ($reservation->options_id >= 1)
-                                {{ $reservation->options_id }}
-                            @else
-                                niet van toepassing
-                            @endif
-                        </td>
-                        
-                        <td><a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-primary">Edit</a></td>
-                        <td>
-                            <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je dit wilt verwijderen?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>{{ $reservation->date }} {{ $reservation->time }}</td>
+                            <td>{{ $reservation->name }}</td>
+                            <td>{{ $reservation->people }}</td>
+                            <td>{{ $reservation->phoneNumber }}</td>
+                            <td>
+                                @if ($reservation->options_id >= 1)
+                                    {{ $reservation->options_id }}
+                                @else
+                                    niet van toepassing
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('reservations.edit', $reservation->id) }}" class="btn btn-primary">Wijzigen</a>
+                            </td>
+                            <td>
+                                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Weet je zeker dat je dit wilt verwijderen?')">Verwijderen</button>
+                                </form>
+                            </td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+        <script>
+            $(document).ready(function() {
+                const sortLinks = document.querySelectorAll(".sort-link");
+
+                sortLinks.forEach(function(link) {
+                    link.addEventListener("click", function(e) {
+                        e.preventDefault();
+                        const sortBy = this.getAttribute("data-sort-by");
+
+                        // Initialize datepicker
+                        $("#datepicker").datepicker({
+                            onSelect: function(selectedDate) {
+                                sortTable(sortBy, selectedDate);
+                            }
+                        }).datepicker("show");
+                    });
+                });
+
+                function sortTable(sortBy, selectedDate) {
+                    const table = document.querySelector(".reservation-table");
+                    const tbody = table.querySelector("tbody");
+                    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+                    rows.sort(function(rowA, rowB) {
+                        const cellA = rowA.querySelector("td:nth-child(" + (getColumnIndex(sortBy) + 1) + ")");
+                        const cellB = rowB.querySelector("td:nth-child(" + (getColumnIndex(sortBy) + 1) + ")");
+
+                        if (sortBy === 'date') {
+                            return new Date(cellB.textContent) - new Date(cellA.textContent);
+                        } else {
+                            return cellA.textContent.localeCompare(cellB.textContent);
+                        }
+                    });
+
+                    tbody.innerHTML = "";
+                    rows.forEach(function(row) {
+                        tbody.appendChild(row);
+                    });
+
+                    // Close datepicker
+                    $("#datepicker").datepicker("hide");
+                }
+
+                function getColumnIndex(columnName) {
+                    const tableHead = document.querySelector(".reservation-table thead");
+                    const headers = Array.from(tableHead.querySelectorAll("th"));
+                    return headers.findIndex(header => header.textContent.trim() === columnName);
+                }
+            });
+        </script>
     @endsection
-</x-app-layout>
-@extends('layouts.app')
-<x-app-layout>
-    @section('content')
-    <div class="container">
-        <h1>My Reservations</h1>
-
-        <table>
-            <th>datum en tijd </th>
-            <th>naam </th>
-            <th>aantal personen </th>
-            <th>telefoonnummer </th>
-
-            <th>extra optie</th>
-
-
-            @foreach ($reservations as $reservation)
-            @foreach ($options as $option)
-            <tr>
-                <td>{{ $reservation->date }} {{ $reservation->time }}</td>
-                <td>{{ $reservation->name }}</td>
-                <td>{{ $reservation->people }}</td>
-                <td>{{ $reservation->phoneNumber }}</td>
-
-                @if ($reservation->options_id >= 1)
-                <td>{{ $option->option }}</td>
-                @else
-                <td>niet van toepassing</td>
-                @endif
-                <td><a href="{{ route('reservations.edit', $reservation->id) }}">Edit</a></td>
-                <td>
-                    <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            @endforeach
-            @endforeach
-        </table>
-    </div>
-    @endsection
-
 </x-app-layout>

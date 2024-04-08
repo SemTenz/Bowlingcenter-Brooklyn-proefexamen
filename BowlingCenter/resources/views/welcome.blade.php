@@ -153,7 +153,7 @@
         @if (Route::has('login'))
             @auth
                 <a href="{{ url('/dashboard') }}" class="btn">Mijn Dashboard</a>
-                <x-nav-link :href="route('reservations.create')" :active="request()->routeIs('reservations.create')" class="btn">
+                <x-nav-link :href="route('reservations.index')" :active="request()->routeIs('reservations.index')" class="btn">
                     {{ __('Reserveringen') }}
                 </x-nav-link>
                 <form method="POST" action="{{ route('logout') }}" style="display: inline;">

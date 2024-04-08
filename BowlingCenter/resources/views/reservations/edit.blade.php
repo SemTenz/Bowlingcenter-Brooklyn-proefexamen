@@ -118,8 +118,8 @@
                 <label for="menu">Gekozen pakket:</label><br>
                 <input type="radio" name="menu" value="1" {{ $reservation->menu == 1 ? 'checked' : '' }} required> Snackpakketbasis<br>
                 <input type="radio" name="menu" value="2" {{ $reservation->menu == 2 ? 'checked' : '' }} required> Snackpakketluxe<br>
-                <input type="radio" name="menu" value="2" {{ $reservation->menu == 3 ? 'checked' : '' }} required> Kinderpartij<br>
-                <input type="radio" name="menu" value="3" {{ $reservation->menu == 4 ? 'checked' : '' }} required> Vrijgezellenfeest<br>
+                <input type="radio" name="menu" value="3" {{ $reservation->menu == 3 ? 'checked' : '' }} required> Kinderpartij<br>
+                <input type="radio" name="menu" value="4" {{ $reservation->menu == 4 ? 'checked' : '' }} required> Vrijgezellenfeest<br>
             </div>
 
             @if(auth()->check())

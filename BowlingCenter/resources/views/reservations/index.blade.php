@@ -110,55 +110,84 @@
                                 </td>
                             </tr>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
+            </tbody>
+       </table>
+</div>
 
-            <script>
-                $(document).ready(function() {
-                    const sortLink = $(".sort-link");
+<script>
+    $(document).ready(function() {
+        const sortLink = $(".sort-link");
+
+        sortLink.click(function(e) {
+            e.preventDefault();
+
+            // Check if the table is already duplicated
+            if ($('.reservation-table').length > 1) {
+                $('.reservation-table:last').remove(); // Remove duplicate table
+            }
+
+            // Initialize datepicker
+            $("#datepicker").datepicker({
+                onSelect: function(selectedDate) {
+                    console.log("Selected Date:", selectedDate);
+                    sortTable(selectedDate);
+                }
+            }).datepicker("show");
+        });
+
+        function sortTable(selectedDate) {
+    console.log("Sorting table for date:", selectedDate);
+    const tbody = $('.reservation-table tbody');
+    const rows = tbody.find('tr').toArray();
+
+    rows.sort(function(a, b) {
+    const dateA = $(a).find('td:first-child').text();
+    const dateB = $(b).find('td:first-child').text();
+
+    console.log("Date A:", dateA);
+    console.log("Date B:", dateB);
+
+    // Compare date strings in reverse order (descending)
+    if (dateA < dateB) return 1;
+    if (dateA > dateB) return -1;
+    return 0;
+});
+
+
+    // Clear the tbody
+    tbody.empty();
+
+    // Append sorted rows to the tbody
+    rows.forEach(function(row) {
+        tbody.append(row);
+    });
+
+    $('#datepicker').datepicker('hide');
+}
+
+
+        function parseDate(selectedDate, dateString) {
+            // Split the date string into date and time parts
+            const [datePart, timePart] = dateString.split(' ');
+
+            // Extract year, month, and day from the selectedDate
+            const [selectedMonth, selectedDay, selectedYear] = selectedDate.split('/');
+
+            // Extract year, month, and day from the datePart of the dateString
+            const [year, month, day] = datePart.split('-');
+
+            // Extract hours and minutes from the timePart
+            const [hours, minutes] = timePart.split(':');
+
+            // Construct a new Date object with the extracted components
+            // Note: Months are 0-indexed in JavaScript Date objects, so we subtract 1 from the selectedMonth
+            return new Date(selectedYear, selectedMonth - 1, selectedDay, hours, minutes);
+        }
+    });
+</script>
+      
             
-                    sortLink.click(function(e) {
-                        e.preventDefault();
-            
-                        // Check if the table is already duplicated
-                        if ($('.reservation-table').length > 1) {
-                            $('.reservation-table:last').remove(); // Remove duplicate table
-                        }
-            
-                        // Initialize datepicker
-                        $("#datepicker").datepicker({
-                            onSelect: function(selectedDate) {
-                                sortTable(selectedDate);
-                            }
-                        }).datepicker("show");
-                    });
-            
-                    function sortTable(selectedDate) {
-                        console.log("Selected Date:", selectedDate);
-                        const tbody = $('.reservation-table tbody');
-                        const rows = tbody.find('tr').toArray();
-            
-                        rows.sort(function(a, b) {
-                            const dateA = new Date(selectedDate + ' ' + $(a).find('td:first-child').text());
-                            const dateB = new Date(selectedDate + ' ' + $(b).find('td:first-child').text());
-                            return dateB - dateA;
-                        });
-            
-                        // Remove existing rows
-                        tbody.empty();
-            
-                        // Re-append sorted rows
-                        rows.forEach(function(row) {
-                            tbody.append(row);
-                        });
-            
-                        $('#datepicker').datepicker('hide');
-                    }
-                });
-            </script>
-            
-        @endsection
-    </x-app-layout>
+@endsection
+</x-app-layout>
 </body>
 </html>

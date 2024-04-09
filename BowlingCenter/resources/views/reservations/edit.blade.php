@@ -2,13 +2,24 @@
 
 @section('content')
 <style>
-    .reservation-form {
-        max-width: 400px;
-        margin: auto;
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
         padding: 20px;
-        border: 1px solid #ccc;
+        background-color: #fff;
         border-radius: 5px;
-        background-color: #f9f9f9;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .reservation-form {
+        margin-bottom: 20px;
     }
 
     .form-group {
@@ -27,6 +38,28 @@
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+
+    .radio-group label {
+        display: inline-block;
+        margin-right: 15px;
+        padding: 8px 15px;
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .radio-group label:hover {
+        background-color: #f0f0f0;
+    }
+
+    input[type="radio"]:checked + label {
+        background-color: #007bff;
+        color: #fff;
+        border-color: #007bff;
     }
 
     .btn-primary {
@@ -36,6 +69,7 @@
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
     }
 
     .btn-primary:hover {
@@ -80,7 +114,7 @@
 
             <div class="form-group">
                 <label for="totalhours">Totaal aantal uren:</label>
-                <input type="number" name="totalhours" id="totalhours" class="form-control" value="{{ $reservation->totalhours }}" min="1" required>
+                <input type="number" name="totalhours" id="totalhours" class="form-control" value="{{ $reservation->totalhours }}" min="1" max="10" required>
             </div>
 
             <div class="form-group">
@@ -88,10 +122,8 @@
                 <input type="time" name="start_time" id="start_time" class="form-control" value="{{ $reservation->start_time }}" required>
             </div>
 
-            <div class="form-group">
-                <label for="end_time">Eind tijd:</label>
-                <input type="time" name="end_time" id="end_time" class="form-control" value="{{ $reservation->end_time }}" required>
-            </div>
+            <!-- Verborgen veld voor eindtijd -->
+            <input type="hidden" name="end_time" id="end_time" value="{{ $reservation->end_time }}">
 
             <div class="form-group">
                 <label for="lane_number">Baan nummer:</label>
@@ -101,12 +133,12 @@
 
             <div class="form-group">
                 <label for="adults">Volwassenen:</label>
-                <input type="number" name="adults" id="adults" class="form-control" value="{{ $reservation->adults }}" min="1" required>
+                <input type="number" name="adults" id="adults" class="form-control" value="{{ $reservation->adults }}" min="1" max="8" required>
             </div>
 
             <div class="form-group">
                 <label for="children">Kinderen:</label>
-                <input type="number" name="children" id="children" class="form-control" value="{{ $reservation->children }}" min="0" required>
+                <input type="number" name="children" id="children" class="form-control" value="{{ $reservation->children }}" min="0" max="4" required>
             </div>
 
             <div class="form-group">
@@ -143,6 +175,27 @@
                 event.preventDefault(); // Voorkom dat het formulier wordt verzonden
             } else {
                 laneError.textContent = ''; // Wis de foutmelding als alles in orde is
+            }
+        });
+
+        // Vul de eindtijd automatisch in op basis van de begintijd en het totale aantal uren
+        document.getElementById('start_time').addEventListener('change', function() {
+            var startTime = this.value;
+            var totalHours = document.getElementById('totalhours').value;
+            var start = new Date("January 1, 2000 " + startTime);
+            start.setHours(start.getHours() + parseInt(totalHours));
+            var endHours = start.getHours().toString().padStart(2, '0');
+            var endMinutes = start.getMinutes().toString().padStart(2, '0');
+            var endTime = endHours + ':' + endMinutes;
+            document.getElementById('end_time').value = endTime;
+        });
+
+        // Zorg ervoor dat alleen kwartieren worden toegestaan en dat "am" en "pm" niet worden weergegeven
+        document.getElementById('start_time').addEventListener('input', function() {
+            var input = this.value;
+            var pattern = /^([01]\d|2[0-3]):?([0-5]\d)?$/;
+            if (!pattern.test(input)) {
+                this.value = '';
             }
         });
     });

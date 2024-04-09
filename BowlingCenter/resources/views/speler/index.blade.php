@@ -54,7 +54,9 @@
                                         {{ $reservation->user ? $reservation->user->infix : '' }}
                                         {{ $reservation->user ? $reservation->user->lastname : '-' }}</td>
                                     <td class="text-center">
-                                        {{ $scores->where('reservation_id', $reservation->id)->first()->score }}</td>
+                                        {{ optional($scores->where('reservation_id', $reservation->id)->first())->score }}
+                                    </td>
+
                                     <td class="text-center">{{ $reservation->id }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('speler.edit', $reservation->id) }}"

@@ -23,8 +23,11 @@ class SpelersController extends Controller
         // Zoek de reservering op basis van het opgegeven ID
         $reservation = Reservation::findOrFail($id);
 
-        // Stuur de gevonden reservering naar de weergave voor het bewerken
-        return view('speler.edit', compact('reservation'));
+        // Haal de bijbehorende score op
+        $score = Score::where('reservation_id', $reservation->id)->first();
+
+        // Stuur de gevonden reservering en score naar de weergave voor het bewerken
+        return view('speler.edit', compact('reservation', 'score'));
     }
 
     public function update(Request $request, $id)
@@ -39,7 +42,8 @@ class SpelersController extends Controller
             $reservation = Reservation::findOrFail($id);
 
             // Update het aantal punten van de reservering
-            $reservation->update([
+            $score = Score::where('reservation_id', $reservation->id)->first();
+            $score->update([
                 'score' => $request->score,
             ]);
 
@@ -47,7 +51,7 @@ class SpelersController extends Controller
             return redirect()->route('speler.index')->with('success', 'Aantal punten is gewijzigd.');
         } catch (\Exception $e) {
             // Als er een fout optreedt, toon dan een foutmelding
-            return redirect()->route('speler.index')->with('error', 'Er is een fout opgetreden bij het wijzigen van de aantal punten.');
+            return redirect()->route('speler.index')->with('error', 'Er is een fout opgetreden bij het wijzigen van het aantal punten.');
         }
     }
 }

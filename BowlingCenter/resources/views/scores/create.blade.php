@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header text-center"
-                        style="background-color: #3490dc; font-size:24px; color: white; font-weight: bold;">
+                        style="background-color: #3490dc; font-size:24px; color: black; font-weight: bold;">
                         {{ __('Score toevoegen aan Reservering') }}
                     </div>
 
@@ -16,7 +16,7 @@
 
                             <div class="form-group row">
                                 <label for="users_id" class="col-md-4 col-form-label text-md-right"
-                                    style="color: white; font-weight: bold;">{{ __('User ID') }}</label>
+                                    style="color: black; font-weight: bold;">{{ __('User ID') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="users_id" type="text"
@@ -33,7 +33,7 @@
 
                             <div class="form-group row">
                                 <label for="score" class="col-md-4 col-form-label text-md-right"
-                                    style="color: white; font-weight: bold;">{{ __('Score') }}</label>
+                                    style="color: black; font-weight: bold;">{{ __('Score') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="score" type="number"
@@ -50,7 +50,7 @@
 
                             <div class="form-group row">
                                 <label for="reservation_id" class="col-md-4 col-form-label text-md-right"
-                                    style="color: white; font-weight: bold;">{{ __('Reservation ID') }}</label>
+                                    style="color: black; font-weight: bold;">{{ __('Reservation ID') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="reservation_id" type="text"

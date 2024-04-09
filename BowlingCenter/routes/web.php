@@ -71,4 +71,5 @@ Route::middleware(['auth'])->name('speler.')->group(function () {
 
 
 
+
 require __DIR__ . '/auth.php';

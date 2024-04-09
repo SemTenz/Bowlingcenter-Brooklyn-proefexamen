@@ -2,10 +2,11 @@
 
 @section('content')
     <style>
+        /* Custom form styling */
         .custom-form {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px;
             border: 1px solid #ced4da;
             border-radius: 10px;
             background-color: #f8f9fa;
@@ -14,11 +15,11 @@
 
         .custom-form .card-header {
             background-color: #3490dc;
-            font-size: 24px;
+            font-size: 28px;
             color: black;
             font-weight: bold;
             text-align: center;
-            padding: 15px 0;
+            padding: 20px 0;
             border-bottom: none;
             border-radius: 10px 10px 0 0;
         }
@@ -29,18 +30,19 @@
 
         .custom-form label {
             font-weight: bold;
-            color: black;
+            color: #555;
         }
 
         .custom-form .form-control {
             border-radius: 5px;
+            border-color: #ced4da;
         }
 
         .custom-form .btn-primary {
             background-color: #3490dc;
             border-color: #3490dc;
             font-weight: bold;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 5px;
         }
 

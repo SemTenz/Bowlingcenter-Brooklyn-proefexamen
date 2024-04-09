@@ -1,7 +1,8 @@
 <style type="text/css">
-    <style type="text/css">.custom-table {
+    .custom-table {
         width: 100%;
         border-collapse: collapse;
+        margin-bottom: 20px;
     }
 
     .custom-table th,
@@ -30,7 +31,6 @@
     }
 </style>
 
-</style>
 @extends('layouts.app')
 @section('content')
     <div class="container py-4">
@@ -53,10 +53,9 @@
                                     <td>{{ $reservation->user ? $reservation->user->firstname : '-' }}
                                         {{ $reservation->user ? $reservation->user->infix : '' }}
                                         {{ $reservation->user ? $reservation->user->lastname : '-' }}</td>
-                                    <td class="text-center">
-                                        {{ $scores->where('reservation_id', $reservation->id)->first()->score }}</td>
-                                    <td class="text-center">{{ $reservation->id }}</td>
-                                    <td class="text-center">
+                                    <td>{{ $scores->where('reservation_id', $reservation->id)->first()->score }}</td>
+                                    <td>{{ $reservation->id }}</td>
+                                    <td>
                                         <a href="{{ route('speler.edit', $reservation->id) }}"
                                             class="btn btn-sm btn-primary action-btn">Wijzigen</a>
                                     </td>

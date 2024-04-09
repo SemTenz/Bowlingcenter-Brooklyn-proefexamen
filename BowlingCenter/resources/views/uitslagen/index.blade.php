@@ -2,9 +2,44 @@
 
 @section('content')
     <style>
+        .custom-form-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .custom-label {
+            font-weight: bold;
+            color: black;
+            margin-right: 10px;
+        }
+
+        .custom-input {
+            flex: 1;
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #ced4da;
+        }
+
+        .custom-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .custom-button:hover {
+            background-color: #0056b3;
+        }
+
         .custom-table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         .custom-table th,
@@ -27,23 +62,6 @@
         .custom-table tbody tr:hover {
             background-color: #e2e6ea;
         }
-
-        .custom-table .action-btn {
-            padding: 6px 12px;
-        }
-
-        .custom-btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .custom-btn:hover {
-            background-color: #0056b3;
-        }
     </style>
 
     <div class="container-fluid bg-light py-4">
@@ -51,42 +69,35 @@
             <div class="col-md-8">
                 <form method="get" action="{{ route('uitslagen.index') . '?' . time() }}">
                     @csrf
-                    <div class="form-group row align-items-center justify-content-center">
-                        <label for="datum" class="col-md-2 col-form-label text-md-right">Datum:</label>
-                        <div class="col-md-3">
-                            <input type="date" id="datum" name="datum" value="{{ request()->input('datum') }}"
-                                class="form-control">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary custom-btn">Toon</button>
-                        </div>
+                    <div class="custom-form-group">
+                        <label for="datum" class="custom-label">Datum:</label>
+                        <input type="date" id="datum" name="datum" value="{{ request()->input('datum') }}"
+                            class="custom-input">
+                        <button type="submit" class="custom-button">Toon</button>
                     </div>
                 </form>
 
-                <div class="table-responsive rounded bg-white shadow">
-                    <table class="table custom-table mx-auto">
+                <div class="table-responsive">
+                    <table class="table custom-table">
                         <thead class="thead-dark">
                             <tr>
-                                <th class="text-center">Voornaam</th>
-                                <th class="text-center">Tussenvoegsel</th>
-                                <th class="text-center">Achternaam</th>
-                                <th class="text-center">Aantal Punten</th>
-                                <th class="text-center">Datum</th>
+                                <th>Voornaam</th>
+                                <th>Tussenvoegsel</th>
+                                <th>Achternaam</th>
+                                <th>Aantal Punten</th>
+                                <th>Datum</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($reservations as $reservation)
                                 <tr>
-                                    <td class="text-center">{{ $reservation->user ? $reservation->user->firstname : '-' }}
-                                    </td>
-                                    <td class="text-center">{{ $reservation->user ? $reservation->user->infix : '-' }}</td>
-                                    <td class="text-center">{{ $reservation->user ? $reservation->user->lastname : '-' }}
-                                    </td>
-                                    <td class="text-center">
+                                    <td>{{ $reservation->user ? $reservation->user->firstname : '-' }}</td>
+                                    <td>{{ $reservation->user ? $reservation->user->infix : '-' }}</td>
+                                    <td>{{ $reservation->user ? $reservation->user->lastname : '-' }}</td>
+                                    <td>
                                         {{ optional($scores->where('reservation_id', $reservation->id)->first())->score ?? '-' }}
                                     </td>
-
-                                    <td class="text-center">{{ $reservation->date }}</td>
+                                    <td>{{ $reservation->date }}</td>
                                 </tr>
                             @empty
                                 <tr>

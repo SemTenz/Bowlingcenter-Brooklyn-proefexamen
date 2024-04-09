@@ -8,8 +8,8 @@
     .custom-header {
         background-color: #343a40;
         color: #fff;
-        border-color: #454d55;
         border-radius: 5px 5px 0 0;
+        padding: 15px 20px;
     }
 
     .custom-body {
@@ -18,6 +18,8 @@
 
     .custom-alert {
         border-radius: 5px;
+        padding: 10px;
+        margin-bottom: 20px;
     }
 
     .custom-label {
@@ -28,11 +30,7 @@
         border: 1px solid #dee2e6;
         border-radius: 3px;
         padding: 8px;
-    }
-
-    .custom-btn {
-        padding: 8px 16px;
-        border-radius: 3px;
+        width: 100%;
     }
 
     .custom-btn {
@@ -42,6 +40,7 @@
         color: #fff;
         border: none;
         transition: background-color 0.3s ease;
+        cursor: pointer;
     }
 
     .custom-btn:hover {

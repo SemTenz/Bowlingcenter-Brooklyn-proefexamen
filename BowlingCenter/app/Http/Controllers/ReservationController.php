@@ -5,42 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Options;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Carbon;
-
 
 class ReservationController extends Controller
 {
-    public function index(Request $request)
-{
-    $options = Options::all();
-        $reservations = Reservation::all();
-        // return view('reservations.index', compact('reservations', 'options'));
-    // Controleer of de gebruiker is ingelogd
-    if (Auth::check()) {
-        // Haal de ingelogde gebruiker op
-        $user = Auth::user();
-
-        // Haal alle reserveringen op van de ingelogde gebruiker
-        $query = Reservation::query()->where('user_id', $user->id);
-
-        // Voeg een datumfilter toe als er een datum is ingediend via het formulier
-        if ($request->has('datum')) {
-            $datum = Carbon::parse($request->input('datum'))->toDateString();
-            $query->whereDate('date', $datum);
-        }
-
-        // Haal de reserveringen op basis van de query
-        $reservations = $query->get();
-
-        // Stuur de reserveringen naar de weergave
+    public function index()
+    {
+        $options = Options::all();
+        $reservations = Reservation::orderByDesc('date')->get();
         return view('reservations.index', compact('reservations', 'options'));
-    } else {
-        // Gebruiker is niet ingelogd, doorverwijzen naar inlogpagina of andere actie
-        return redirect()->route('login');
     }
-}
-
 
     public function create()
     {
@@ -73,19 +46,6 @@ class ReservationController extends Controller
         $reservation->save();
 
         return redirect()->route('reservations.index')->with('success', 'Reservation created successfully!');
-
-         // Valideer de invoer van het formulier
-         $request->validate([
-            'datum' => 'nullable|date', // Zorg ervoor dat de datum optioneel is en een geldig datumformaat heeft
-        ]);
-
-        // Als er een datum is ingediend, redirect dan naar de indexpagina met de datum als query parameter
-        if ($request->has('datum')) {
-            return redirect()->route('reservations.index', ['datum' => $request->input('datum')]);
-        }
-
-        // Als er geen datum is ingediend, redirect dan naar de indexpagina zonder query parameters
-        return redirect()->route('reservations.index');
     }
 
     public function edit($id)
@@ -167,5 +127,3 @@ class ReservationController extends Controller
         return redirect()->route('reservations.index')->with('success', 'Reservation deleted successfully!');
     }
 }
-
-

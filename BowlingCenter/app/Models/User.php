@@ -48,8 +48,9 @@ class User extends Authenticatable
         ];
     }
 
+    // In User.php model
     public function reservations()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->hasMany(Reservation::class, 'users_id'); // 'user_id' moet overeenkomen met de kolomnaam in de 'reservations' tabel die de gebruiker identificeert.
     }
 }

@@ -49,7 +49,7 @@
     <div class="container-fluid bg-light py-4">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form method="get" action="{{ route('uitslagen.index') }}">
+                <form method="get" action="{{ route('uitslagen.index') . '?' . time() }}">
                     @csrf
                     <div class="form-group row align-items-center justify-content-center">
                         <label for="datum" class="col-md-2 col-form-label text-md-right">Datum:</label>
@@ -101,4 +101,19 @@
             </div>
         </div>
     </div>
+    <script>
+        // JavaScript om de geselecteerde datum te wissen bij vernieuwen van de pagina
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('dateForm');
+            const dateInput = document.getElementById('datum');
+
+            // Controleer of er een datum is geselecteerd bij het laden van de pagina
+            if (dateInput.value) {
+                // Wis de geselecteerde datum om terug te keren naar de standaardweergave
+                dateInput.value = '';
+                // Verzend het formulier automatisch om de standaardweergave te laden
+                form.submit();
+            }
+        });
+    </script>
 @endsection
